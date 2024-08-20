@@ -1,43 +1,37 @@
-let saldo = 3000;
-
-const elementoSaldo = document.querySelector(".saldo-valor .valor");
-elementoSaldo.textContent = saldo;
-
-const elementoFormulario = document.querySelector(".block-nova-transacao form");
-elementoFormulario.addEventListener("submit", function(event){
+var saldo = 3000;
+var elementoSaldo = document.querySelector(".saldo-valor .valor");
+if (elementoSaldo != null) {
+    elementoSaldo.textContent = saldo.toString();
+}
+var elementoFormulario = document.querySelector(".block-nova-transacao form");
+elementoFormulario.addEventListener("submit", function (event) {
     event.preventDefault();
-    if (!elementoFormulario.checkVisibility()){
+    if (!elementoFormulario.checkVisibility()) {
         alert("Por favor, preencha todos os dados da transação!");
-        return
+        return;
     }
-
-    const inputTipoTransação = elementoFormulario.querySelector("#tipoTransacao");
-    const inputValor = elementoFormulario.querySelector("#valor");
-    const inputData = elementoFormulario.querySelector("#data");
-
-    let tipoTransacao = inputTipoTransação.value;
-    let valor = inputValor.value;
-    let data = inputData.value;
-
+    var inputTipoTransação = elementoFormulario.querySelector("#tipoTransacao");
+    var inputValor = elementoFormulario.querySelector("#valor");
+    var inputData = elementoFormulario.querySelector("#data");
+    var tipoTransacao = inputTipoTransação.value;
+    var valor = inputValor.valueAsNumber;
+    var data = new Date(inputData.value);
     if (tipoTransacao == "Depósito") {
-        saldo += parseFloat(valor);
-    } else if (tipoTransacao == "Transferência" || tipoTransacao == "Pagamento de Boleto"){
-        saldo -= parseFloat(valor);
-    } else {
+        saldo += valor;
+    }
+    else if (tipoTransacao == "Transferência" || tipoTransacao == "Pagamento de Boleto") {
+        saldo -= valor;
+    }
+    else {
         alert("Transação inválida!");
-        return
+        return;
     }
-
-    elementoSaldo.textContent = saldo;
-
-    const novaTransacao = {
+    elementoSaldo.textContent = saldo.toString();
+    var novaTransacao = {
         tipoTransacao: tipoTransacao,
-        valor: parseFloat(valor),
+        valor: valor,
         data: data
-    }
-
+    };
     console.log(novaTransacao);
     elementoFormulario.reset();
-
-})
-
+});
